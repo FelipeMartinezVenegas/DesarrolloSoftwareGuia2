@@ -37,6 +37,34 @@ public class Main extends Application {
         // Botón Calcular
         Button btnCalcular = new Button("Calcular Impuesto");
 
+        // Evento al presionar el botón
+        btnCalcular.setOnAction(event -> {
+            try {
+                // Obtener los valores ingresados
+                String marca = txtMarca.getText();
+                String modelo = txtModelo.getText();
+                int anio = Integer.parseInt(txtAnio.getText());
+                int cilindraje = Integer.parseInt(txtCilindraje.getText());
+                double avaluo = Double.parseDouble(txtAvaluo.getText());
+                String uso = cbUso.getValue();
+
+                // Validación básica
+                if (marca.isEmpty() || modelo.isEmpty() || uso == null) {
+                    mostrarAlerta("Error", "Todos los campos son obligatorios.");
+                    return;
+                }
+
+                // Cálculo del impuesto (ejemplo simple)
+                double impuesto = calcularImpuesto(avaluo, uso);
+
+                // Mostrar el resultado en un Alert
+                mostrarAlerta("Resultado", "El impuesto a pagar es: $" + impuesto);
+
+            } catch (NumberFormatException e) {
+                mostrarAlerta("Error", "Ingrese valores numéricos válidos en Año, Cilindraje y Avalúo.");
+            }
+        });
+
         // Agregar elementos al GridPane
         grid.add(lblMarca, 0, 0);
         grid.add(txtMarca, 1, 0);
@@ -59,13 +87,28 @@ public class Main extends Application {
         grid.add(btnCalcular, 0, 6, 2, 1);
 
         // Crear la escena y agregar CSS
-        Scene scene = new Scene(grid, 400, 300);
+        Scene scene = new Scene(grid, 400, 350);
         scene.getStylesheets().add(getClass().getResource("/styles/styles.css").toExternalForm());
 
         // Configurar y mostrar la ventana
         primaryStage.setTitle("Calculadora de Impuestos");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    // Método para calcular el impuesto (ejemplo básico)
+    private double calcularImpuesto(double avaluo, String uso) {
+        double tasa = uso.equals("Público") ? 0.02 : 0.015; // 2% para público, 1.5% para particular
+        return avaluo * tasa;
+    }
+
+    // Método para mostrar alertas
+    private void mostrarAlerta(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 
     public static void main(String[] args) {
