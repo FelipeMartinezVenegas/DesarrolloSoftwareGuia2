@@ -105,8 +105,7 @@ public class Main extends Application {
         grid.add(btnCalcular, 0, 8, 2, 1);
 
         Scene scene = new Scene(grid, 400, 400);
-
-// 🔗 Agregar hoja de estilos
+        
         scene.getStylesheets().add(getClass().getResource("/styles/styles.css").toExternalForm());
 
         primaryStage.setTitle("Calculadora de Impuestos");
