@@ -28,21 +28,7 @@ Git & GitHub para el control de versiones
 
 📂 Estructura del Proyecto
 
-📦 SistemaImpuestosVehiculos
- ┣ 📂 src
- ┃ ┣ 📂 controlador
- ┃ ┃ ┗ 📜 Controlador.java
- ┃ ┣ 📂 modelo
- ┃ ┃ ┣ 📜 Vehiculo.java
- ┃ ┃ ┣ 📜 Automovil.java
- ┃ ┃ ┣ 📜 Motocicleta.java
- ┃ ┃ ┗ 📜 CalculadoraImpuestos.java
- ┃ ┣ 📂 vista
- ┃ ┃ ┣ 📜 VentanaPrincipal.java
- ┃ ┃ ┗ 📜 Main.java
- ┣ 📂 diagrams
- ┃ ┗ 📜 diagrama_clases.puml
- ┗ 📜 README.md
+![image](https://github.com/user-attachments/assets/14b43022-9303-4815-b577-299a5fbbf9b9)
 
 📊 Diagrama de Clases
 
