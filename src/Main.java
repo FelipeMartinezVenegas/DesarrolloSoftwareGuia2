@@ -1,3 +1,4 @@
+import controlador.Controlador;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -6,6 +7,8 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+    private Controlador controlador = new Controlador();
+
     @Override
     public void start(Stage primaryStage) {
         // Crear el layout
@@ -14,7 +17,11 @@ public class Main extends Application {
         grid.setHgap(10);
         grid.setVgap(10);
 
-        // Etiquetas y Campos de Entrada
+        Label lblTipoVehiculo = new Label("Tipo de Vehículo:");
+        ChoiceBox<String> cbTipoVehiculo = new ChoiceBox<>();
+        cbTipoVehiculo.getItems().addAll("Automovil", "Motocicleta");
+        cbTipoVehiculo.setValue("Automovil");
+
         Label lblMarca = new Label("Marca:");
         TextField txtMarca = new TextField();
 
@@ -34,13 +41,20 @@ public class Main extends Application {
         ChoiceBox<String> cbUso = new ChoiceBox<>();
         cbUso.getItems().addAll("Particular", "Público");
 
-        // Botón Calcular
+        CheckBox checkSidecar = new CheckBox("Tiene Sidecar");
+
+        GridPane opcionesAdicionales = new GridPane();
+        opcionesAdicionales.setHgap(10);
+        opcionesAdicionales.setVgap(10);
+        actualizarOpciones(cbTipoVehiculo, opcionesAdicionales, checkSidecar);
+
+        cbTipoVehiculo.setOnAction(e -> actualizarOpciones(cbTipoVehiculo, opcionesAdicionales, checkSidecar));
+
         Button btnCalcular = new Button("Calcular Impuesto");
 
-        // Evento al presionar el botón
         btnCalcular.setOnAction(event -> {
             try {
-                // Obtener los valores ingresados
+                String tipo = cbTipoVehiculo.getValue();
                 String marca = txtMarca.getText();
                 String modelo = txtModelo.getText();
                 int anio = Integer.parseInt(txtAnio.getText());
@@ -48,16 +62,17 @@ public class Main extends Application {
                 double avaluo = Double.parseDouble(txtAvaluo.getText());
                 String uso = cbUso.getValue();
 
-                // Validación básica
                 if (marca.isEmpty() || modelo.isEmpty() || uso == null) {
                     mostrarAlerta("Error", "Todos los campos son obligatorios.");
                     return;
                 }
 
-                // Cálculo del impuesto (ejemplo simple)
-                double impuesto = calcularImpuesto(avaluo, uso);
+                Boolean tieneSidecar = tipo.equals("Motocicleta") ? checkSidecar.isSelected() : false;
 
-                // Mostrar el resultado en un Alert
+                double impuesto = controlador.calcularImpuesto(
+                        tipo, marca, modelo, anio, cilindraje, avaluo, uso, tieneSidecar
+                );
+
                 mostrarAlerta("Resultado", "El impuesto a pagar es: $" + impuesto);
 
             } catch (NumberFormatException e) {
@@ -66,49 +81,50 @@ public class Main extends Application {
         });
 
         // Agregar elementos al GridPane
-        grid.add(lblMarca, 0, 0);
-        grid.add(txtMarca, 1, 0);
+        grid.add(lblTipoVehiculo, 0, 0);
+        grid.add(cbTipoVehiculo, 1, 0);
 
-        grid.add(lblModelo, 0, 1);
-        grid.add(txtModelo, 1, 1);
+        grid.add(lblMarca, 0, 1);
+        grid.add(txtMarca, 1, 1);
 
-        grid.add(lblAnio, 0, 2);
-        grid.add(txtAnio, 1, 2);
+        grid.add(lblModelo, 0, 2);
+        grid.add(txtModelo, 1, 2);
 
-        grid.add(lblCilindraje, 0, 3);
-        grid.add(txtCilindraje, 1, 3);
+        grid.add(lblAnio, 0, 3);
+        grid.add(txtAnio, 1, 3);
 
-        grid.add(lblAvaluo, 0, 4);
-        grid.add(txtAvaluo, 1, 4);
+        grid.add(lblCilindraje, 0, 4);
+        grid.add(txtCilindraje, 1, 4);
 
-        grid.add(lblUso, 0, 5);
-        grid.add(cbUso, 1, 5);
+        grid.add(lblAvaluo, 0, 5);
+        grid.add(txtAvaluo, 1, 5);
 
-        grid.add(btnCalcular, 0, 6, 2, 1);
+        grid.add(lblUso, 0, 6);
+        grid.add(cbUso, 1, 6);
 
-        // Crear la escena y agregar CSS
-        Scene scene = new Scene(grid, 400, 350);
-        scene.getStylesheets().add(getClass().getResource("/styles/styles.css").toExternalForm());
+        grid.add(opcionesAdicionales, 0, 7, 2, 1);
 
-        // Configurar y mostrar la ventana
+        grid.add(btnCalcular, 0, 8, 2, 1);
+
+        Scene scene = new Scene(grid, 400, 400);
         primaryStage.setTitle("Calculadora de Impuestos");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    // Método para calcular el impuesto (ejemplo básico)
-    private double calcularImpuesto(double avaluo, String uso) {
-        double tasa = uso.equals("Público") ? 0.02 : 0.015; // 2% para público, 1.5% para particular
-        return avaluo * tasa;
-    }
-
-    // Método para mostrar alertas
     private void mostrarAlerta(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();
+    }
+
+    private void actualizarOpciones(ChoiceBox<String> cbTipoVehiculo, GridPane opciones, CheckBox checkSidecar) {
+        opciones.getChildren().clear();
+        if (cbTipoVehiculo.getValue().equals("Motocicleta")) {
+            opciones.add(checkSidecar, 0, 0, 2, 1);
+        }
     }
 
     public static void main(String[] args) {

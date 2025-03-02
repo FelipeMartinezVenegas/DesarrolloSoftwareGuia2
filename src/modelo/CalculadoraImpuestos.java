@@ -8,6 +8,13 @@ public class CalculadoraImpuestos {
         int antiguedad = 2025 - vehiculo.getAnio();
         double descuento = (antiguedad > 10) ? 0.1 * impuestoBase : 0;
 
+        if (vehiculo instanceof Motocicleta) {
+            Motocicleta moto = (Motocicleta) vehiculo;
+            if (moto.tieneSidecar()) {
+                impuestoBase += 100000;
+            }
+        }
+
         return impuestoBase - descuento;
     }
 }
