@@ -1,0 +1,49 @@
+@startuml
+' Definir clases del Modelo
+class Vehiculo {
+    - String marca
+    - String modelo
+    - int anio
+    - int cilindraje
+    - double avaluo
+    - String tipoUso
+    + getMarca()
+    + getModelo()
+    + getAnio()
+    + getCilindraje()
+    + getAvaluo()
+    + getTipoUso()
+}
+
+class Automovil {
+    + Automovil(String, String, int, int, double, String)
+}
+
+class Motocicleta {
+    - boolean tieneSidecar
+    + Motocicleta(String, String, int, int, double, String, boolean)
+    + tieneSidecar()
+}
+
+class CalculadoraImpuestos {
+    + static double calcularImpuesto(Vehiculo)
+}
+
+' Definir clase Controlador
+class Controlador {
+    + double calcularImpuesto(String, String, String, int, int, double, String, Boolean)
+}
+
+' Definir clase Main
+class Main {
+    + void start(Stage)
+}
+
+' Relaciones entre clases
+Vehiculo <|-- Automovil
+Vehiculo <|-- Motocicleta
+Vehiculo <.. CalculadoraImpuestos : Usa
+Controlador ..> Vehiculo : Crea
+Controlador ..> CalculadoraImpuestos : Usa
+Main ..> Controlador : Usa
+@enduml
