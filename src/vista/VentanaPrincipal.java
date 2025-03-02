@@ -124,7 +124,7 @@ public class VentanaPrincipal extends Application {
         );
 
         Scene scene = new Scene(layout, 500, 600);
-        scene.getStylesheets().add(getClass().getResource("../styles/styles.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/styles/styles.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.setTitle("Cálculo de Impuestos");
         primaryStage.show();

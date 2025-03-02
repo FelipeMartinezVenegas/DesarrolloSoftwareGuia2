@@ -11,7 +11,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        // Crear el layout
         GridPane grid = new GridPane();
         grid.setPadding(new Insets(20));
         grid.setHgap(10);
@@ -80,7 +79,6 @@ public class Main extends Application {
             }
         });
 
-        // Agregar elementos al GridPane
         grid.add(lblTipoVehiculo, 0, 0);
         grid.add(cbTipoVehiculo, 1, 0);
 
@@ -107,9 +105,14 @@ public class Main extends Application {
         grid.add(btnCalcular, 0, 8, 2, 1);
 
         Scene scene = new Scene(grid, 400, 400);
+
+// 🔗 Agregar hoja de estilos
+        scene.getStylesheets().add(getClass().getResource("/styles/styles.css").toExternalForm());
+
         primaryStage.setTitle("Calculadora de Impuestos");
         primaryStage.setScene(scene);
         primaryStage.show();
+
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {
