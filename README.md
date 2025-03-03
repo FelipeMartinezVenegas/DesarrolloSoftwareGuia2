@@ -73,6 +73,10 @@ En caso de errores en la entrada, se mostrará un mensaje de alerta.
 
 📝 Autor
 
-Cristhian Felipe Martinez Venegas
+Felipe Martínez Venegas
+Mariana Ruiz Rubiano
+Jorge Steven Gaitán Barreto
+Miguel Antonio Moscote
+
 
 📌 ¡Gracias por revisar este proyecto! 🚀
